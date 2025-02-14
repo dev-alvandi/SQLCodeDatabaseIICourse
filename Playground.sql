@@ -1,6 +1,6 @@
-DROP DATABASE dbb;
+DROP DATABASE bdd;
 
-USE dbb;
+USE bdd;
 
 -- DROP TABLE LoanItem;
 

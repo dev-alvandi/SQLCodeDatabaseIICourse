@@ -24,16 +24,13 @@ BEGIN
         -- Retrieve the bookCopyID, bookCategory, and isReferenceCopy
         SELECT bookCopyID, bookCategory, isReferenceCopy INTO itemCopyID, bookCat, isReference
         FROM BookCopy 
-        WHERE ISBN = p_itemID AND isReference = 0 AND onLoan = 0 
+        WHERE ISBN = p_itemID AND onLoan = 0 
         LIMIT 1;
-        
-        -- Debugging
-        SELECT itemCopyID, bookCat, isReference; 
         
         IF itemCopyID IS NULL THEN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No available copy of the book';
-        -- ELSEIF isReference = 1 THEN
---             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This book is a reference book and cannot be borrowed';
+		ELSEIF isReference = 1 THEN
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'All copies of the named book is borrowed except reference book which cannot be borrowed, ';
         ELSE
             SET itemAvailable = 1;
 
