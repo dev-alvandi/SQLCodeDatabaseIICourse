@@ -1,5 +1,5 @@
-CREATE DATABASE dbb;
-USE dbb;
+CREATE DATABASE bbd;
+USE bbd;
 
 CREATE TABLE Book(
 ISBN bigint not null, 
