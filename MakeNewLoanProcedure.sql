@@ -24,7 +24,7 @@ BEGIN
         -- Retrieve the bookCopyID, bookCategory, and isReferenceCopy
         SELECT bookCopyID, bookCategory, isReferenceCopy INTO itemCopyID, bookCat, isReference
         FROM BookCopy 
-        WHERE ISBN = p_itemID AND onLoan = 0 
+        WHERE ISBN = p_itemID AND isReference = 0 AND onLoan = 0 
         LIMIT 1;
         
         -- Debugging
