@@ -18,11 +18,11 @@ BEGIN
     WHERE userID = NEW.userID;
 
     -- Check the borrowing limits based on user category
-    IF userCat = 1 AND loanCount > 20 THEN
+    IF userCat = 1 AND loanCount >= 20 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User category 1 (Researcher) may not borrow more than 20 items';
-    ELSEIF userCat = 2 AND loanCount > 10 THEN
+    ELSEIF userCat = 2 AND loanCount >= 10 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User category 2 (Teacher) may not borrow more than 10 items';
-    ELSEIF userCat = 3 AND loanCount > 5 THEN
+    ELSEIF userCat = 3 AND loanCount >= 5 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User category 3 (Student) may not borrow more than 5 items';
     END IF;
 END //
