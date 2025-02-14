@@ -32,5 +32,3 @@ BEGIN
 END //
 
 DELIMITER ;
-
-SELECT getUserLoans(100002);

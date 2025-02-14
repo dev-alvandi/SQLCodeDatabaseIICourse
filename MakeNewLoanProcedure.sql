@@ -3,7 +3,7 @@ DELIMITER //
 CREATE PROCEDURE MakeNewLoan(
     IN p_userID INT,
     IN p_itemType ENUM('book', 'dvd'),
-    IN p_itemID BIGINT,
+    IN p_itemID BIGINT, -- Refers to either ISBN on BookCopy table or dvdNo on DVDCopy table
     OUT p_loanID INT
 )
 BEGIN
@@ -30,7 +30,7 @@ BEGIN
         IF itemCopyID IS NULL THEN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No available copy of the book';
 		ELSEIF isReference = 1 THEN
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'All copies of the named book is borrowed except reference book which cannot be borrowed, ';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'All copies of the named book is borrowed except reference book which cannot be borrowed';
         ELSE
             SET itemAvailable = 1;
 
