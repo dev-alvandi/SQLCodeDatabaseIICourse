@@ -10,7 +10,7 @@ BEGIN
     -- Declare variables
     DECLARE itemAvailable INT DEFAULT 0;
     DECLARE itemCopyID INT;
-    DECLARE bookCategory INT;
+    DECLARE bookCat INT;
     DECLARE returnDate DATE;
     DECLARE isReference INT;
 
@@ -22,10 +22,13 @@ BEGIN
     -- Check the item type and its availability
     IF p_itemType = 'book' THEN
         -- Retrieve the bookCopyID, bookCategory, and isReferenceCopy
-        SELECT bookCopyID, bookCategory, isReferenceCopy INTO itemCopyID, bookCategory, isReference
+        SELECT bookCopyID, bookCategory, isReferenceCopy INTO itemCopyID, bookCat, isReference
         FROM BookCopy 
-        WHERE ISBN = p_itemID AND isReference = 0 AND onLoan = 0 
+        WHERE ISBN = p_itemID AND onLoan = 0 
         LIMIT 1;
+        
+        -- Debugging
+        SELECT itemCopyID, bookCat, isReference; 
         
         IF itemCopyID IS NULL THEN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No available copy of the book';
@@ -35,9 +38,9 @@ BEGIN
             SET itemAvailable = 1;
 
             -- Determine the loan duration based on bookCategory
-            IF bookCategory = 1 THEN
+            IF bookCat = 1 THEN
                 SET returnDate = ADDDATE(CURDATE(), INTERVAL 2 MONTH);
-            ELSEIF bookCategory = 2 THEN
+            ELSEIF bookCat = 2 THEN
                 SET returnDate = ADDDATE(CURDATE(), INTERVAL 1 MONTH);
             ELSE
                 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid book category';
