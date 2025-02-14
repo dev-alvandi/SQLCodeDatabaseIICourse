@@ -64,6 +64,9 @@ BEGIN
         INSERT INTO Loan (userID, loanDate) VALUES (p_userID, CURDATE());
         SET p_loanID = LAST_INSERT_ID();
         
+        -- Invoke the function to increment active loans
+        SET @newActiveLoans = incrementActiveLoans(p_userID);
+        
         -- Insert item into ItemLoan
         IF p_itemType = 'book' THEN
             INSERT INTO ItemLoan (itemLoanNo, loanID, userID, bookCopyID, returnDate) 
